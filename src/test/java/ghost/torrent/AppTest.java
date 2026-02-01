@@ -66,7 +66,6 @@ public class AppTest {
 
     @Test
     public void Encode() {
-        
         Bencode ben = new Bencode(
             "{ " +
             "  'title' 'Example File' " +
@@ -79,7 +78,6 @@ public class AppTest {
             "  'ratings' [5 4 5] " +
             "}"
         );
-
         String expected = "d6:authord2:idi42e4:name5:Aliceee7:ratingsli5ei4ei5ee4:tagsl7:bencode4:java8:encodinge5:title12:Example File4:yeari2024ee";
 
         assertEquals(expected, ben.encode());

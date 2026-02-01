@@ -71,9 +71,6 @@ public class Bencode {
 
     private String parseDict() {
         StringBuilder str = new StringBuilder();
-        
-
-
         return str.toString();
     }
 
