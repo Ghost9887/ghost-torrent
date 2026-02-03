@@ -185,14 +185,23 @@ public class Bencode {
         }
 
         int l = Integer.parseInt(length.toString());
-        for (int i = 0; i < l - 1; i++) {
+        //skip the pecies
+        if (l > 1000) {
+            for (int i = 0; i < l - 1; i++) {
+                advance();
+            }
+            str.append("pieces' ");
+        }else {
+            for (int i = 0; i < l - 1; i++) {
+                byte b = peek().get();
+                str.append((char) b);
+                advance();
+            }
             byte b = peek().get();
             str.append((char) b);
-            advance();
+            str.append("' ");
         }
-        byte b = peek().get();
-        str.append((char) b);
-        str.append("' ");
+
         return str.toString();
     }
 
