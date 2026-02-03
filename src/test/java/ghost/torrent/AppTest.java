@@ -10,7 +10,23 @@ public class AppTest {
     @Test
     public void decodeString() {
         Bencode ben = new Bencode("6:coding");
-        String expected = "'coding'";
+        String expected = "'coding' ";
+
+        assertEquals(expected, ben.decode());
+    }
+
+    @Test
+    public void decodeNum() {
+        Bencode ben = new Bencode("i100e");
+        String expected = "100 ";
+
+        assertEquals(expected, ben.decode());
+    }
+
+    @Test
+    public void decodeStringNum() {
+        Bencode ben = new Bencode("6:codingi100e");
+        String expected = "'coding' 100 ";
 
         assertEquals(expected, ben.decode());
     }

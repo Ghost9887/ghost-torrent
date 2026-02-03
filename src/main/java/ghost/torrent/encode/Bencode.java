@@ -34,7 +34,82 @@ public class Bencode {
     }
 
     public String decode() {
-        return "";
+        StringBuilder res = new StringBuilder();
+    
+        while(true) {
+            Optional<Character> cOpt = peek();
+            if (cOpt.isPresent()) {
+                char c = cOpt.get();
+                switch (c) {
+                    case 'i':
+                        res.append(decodeNum());
+                        break;
+                    default:
+                        if(isNum(c)) {
+                            res.append(decodeWord());
+                        }
+                        break;
+                }
+                System.out.println(res.toString());
+                advance();
+            }else {
+                break;
+            }
+        }
+
+        return res.toString();
+    }
+
+    public String decodeNum() {
+        StringBuilder str = new StringBuilder();
+
+        advance();
+        while (true) {
+            Optional<Character> cOpt = peek();
+            if (cOpt.isPresent()) {
+                char c = cOpt.get();
+                if (isNum(c)) {
+                    str.append(c);
+                    advance();
+                }
+                else{
+                    advance();
+                    break;
+                }
+            }else return null;
+        }
+
+        str.append(' ');
+        return str.toString();
+    }
+
+    public String decodeWord() {
+        StringBuilder str = new StringBuilder();
+        StringBuilder length = new StringBuilder();
+
+        while (true) {
+            Optional<Character> cOpt = peek();
+            if (cOpt.isPresent()) {
+                char c = cOpt.get();
+                if (isNum(c)) {
+                    length.append(c);
+                    advance();
+                }else {
+                    str.append("'");
+                    advance();
+                    break;
+                }
+            }else return null;
+        }
+
+        int l = Integer.parseInt(length.toString());
+        for (int i = 0; i < l - 1; i++) {
+            str.append(peek().get());
+            advance();
+        }
+        str.append(peek().get());
+        str.append("' ");
+        return str.toString();
     }
 
     public String encode() {
