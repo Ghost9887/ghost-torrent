@@ -47,6 +47,9 @@ public class Bencode {
                     case 'l':
                         res.append(decodeList());
                         break;
+                    case 'd':
+                        res.append(decodeDict());
+                        break;
                     default:
                         if(isNum(c)) {
                             res.append(decodeWord());
@@ -63,6 +66,48 @@ public class Bencode {
         return res.toString();
     }
 
+    public String decodeDict() {
+        StringBuilder str = new StringBuilder();
+        str.append('{');
+        int counter = 0;
+
+        advance();
+        while (true) {
+            Optional<Character> cOpt = peek();
+            if (cOpt.isPresent()) {
+                char c = cOpt.get();
+                switch (c) {
+                    case 'e':
+                        str.append('}');
+                        return str.toString();
+                    case 'l':
+                        str.append(decodeList());
+                        break;
+                    case 'd':
+                        str.append(decodeDict());
+                        break;
+                    case 'i':
+                        str.append(decodeNum());
+                        break;
+                    default:
+                        if (isNum(c)) {
+                            str.append(decodeWord());
+                        }
+                        break;
+                }
+                counter++;
+                if (counter % 2 == 1){
+                    str.append(':');
+                }else {
+                    counter = 0;
+                }
+                advance();
+            }else break;
+        }
+
+        return null;
+    }
+
     public String decodeList() {
         StringBuilder str = new StringBuilder();
         str.append('[');
@@ -76,6 +121,9 @@ public class Bencode {
                     case 'e':
                         str.append(']');
                         return str.toString();
+                    case 'd':
+                        str.append(decodeDict());
+                        break;
                     case 'l':
                         str.append(decodeList());
                         break;

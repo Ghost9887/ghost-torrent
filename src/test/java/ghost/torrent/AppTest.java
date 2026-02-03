@@ -54,6 +54,22 @@ public class AppTest {
     }
 
     @Test
+    public void decodeDict() {
+        Bencode ben = new Bencode("d3:Day6:sunday9:challenge7:torrente");
+        String expected = "{'Day' :'sunday' 'challenge' :'torrent' }";
+
+        assertEquals(expected, ben.decode());
+    }
+
+    @Test
+    public void decodeNestedDict() {
+        Bencode ben = new Bencode("d17:Coding Challengesd6:Rating7:Awesome8:website:20:codingchallenges.fyiee");
+        String expected = "{'Coding Challenges' :{'Rating' :'Awesome' 'website:' :'codingchallenges.fyi' }}";
+
+        assertEquals(expected, ben.decode());
+    }
+
+    @Test
     public void EncodeString() {
         Bencode ben = new Bencode("'coding'");
         String expected = "6:coding";
