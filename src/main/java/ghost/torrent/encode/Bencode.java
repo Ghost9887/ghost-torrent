@@ -33,6 +33,10 @@ public class Bencode {
         ip--;
     }
 
+    public String decode() {
+        return "";
+    }
+
     public String encode() {
         StringBuilder res = new StringBuilder();
     
@@ -44,18 +48,18 @@ public class Bencode {
                     case ' ':
                         break;
                     case '[':
-                        res.append(parseList());
+                        res.append(encodeList());
                         break;
                     case '{':
-                        res.append(parseDict());
+                        res.append(encodeDict());
                         break;
                     case '\'':
                     case '"':
-                        res.append(parseWord());
+                        res.append(encodeWord());
                         break;
                     default:
                         if(isNum(c)) {
-                            res.append(parseNum());
+                            res.append(encodeNum());
                         }else {
                             System.out.println("Invalid char: " + c);
                             return null;
@@ -70,10 +74,7 @@ public class Bencode {
         return res.toString();
     }
 
-    public void decode() {
-    }
-
-    private String parseDict() {
+    private String encodeDict() {
         StringBuilder str = new StringBuilder();
         List<String> list = new ArrayList<>();
         GhostQueue q = new GhostQueue();
@@ -88,13 +89,13 @@ public class Bencode {
                 switch (c) {
                     case '"':
                     case '\'':
-                        list.add(parseWord());
+                        list.add(encodeWord());
                         break;
                     case '[':
-                        list.add(parseList());
+                        list.add(encodeList());
                         break;
                     case '{':
-                        list.add(parseDict());
+                        list.add(encodeDict());
                         break;
                     case '}':
                         while(!q.isEmpty()) {
@@ -104,7 +105,7 @@ public class Bencode {
                         return str.toString();
                     default:
                         if (isNum(c)){
-                            list.add(parseNum());    
+                            list.add(encodeNum());    
                             continue;
                         }
                         break;
@@ -121,7 +122,7 @@ public class Bencode {
         return null;
     }
 
-    private String parseList() {
+    private String encodeList() {
         StringBuilder str = new StringBuilder();
         str.append('l');
 
@@ -132,21 +133,21 @@ public class Bencode {
                 char c = cOpt.get();
                 switch (c) {
                     case '{':
-                        str.append(parseDict());
+                        str.append(encodeDict());
                         break;
                     case '\'':
                     case '"':
-                        str.append(parseWord());
+                        str.append(encodeWord());
                         break;
                     case '[':
-                        str.append(parseList());
+                        str.append(encodeList());
                         break;
                     case ']':
                         str.append('e');
                         return str.toString();
                     default:
                         if (isNum(c)) {
-                            str.append(parseNum());
+                            str.append(encodeNum());
                             continue;
                         };
                         break;
@@ -159,7 +160,7 @@ public class Bencode {
         return null;
     }
 
-    private String parseWord() {
+    private String encodeWord() {
         advance();
         StringBuilder str = new StringBuilder();
         StringBuilder word = new StringBuilder();
@@ -181,7 +182,7 @@ public class Bencode {
         return str.toString();
     }
 
-    private String parseNum() {
+    private String encodeNum() {
         StringBuilder str = new StringBuilder();
         str.append('i');
         while(true) {

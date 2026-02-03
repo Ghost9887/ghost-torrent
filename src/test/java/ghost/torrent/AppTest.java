@@ -8,6 +8,14 @@ import ghost.torrent.encode.*;
 public class AppTest {
 
     @Test
+    public void decodeString() {
+        Bencode ben = new Bencode("6:coding");
+        String expected = "'coding'";
+
+        assertEquals(expected, ben.decode());
+    }
+
+    @Test
     public void EncodeString() {
         Bencode ben = new Bencode("'coding'");
         String expected = "6:coding";
