@@ -1,6 +1,6 @@
-package ghost.torrent;
+package ghost.bencode;
 
-import ghost.torrent.encode.Bencode;
+import ghost.bencode.encode.Bencode;
 import java.nio.file.*;
 import java.io.IOException;
 

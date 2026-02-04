@@ -1,4 +1,4 @@
-package ghost.torrent.encode;
+package ghost.bencode.encode;
 
 public class Node {
     public String[] value = new String[2];

@@ -1,9 +1,9 @@
-package ghost.torrent;
+package ghost.bencode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-import ghost.torrent.encode.*;
+import ghost.bencode.encode.*;
 
 public class AppTest {
 

@@ -1,4 +1,4 @@
-package ghost.torrent.encode;
+package ghost.bencode.encode;
 
 import java.util.Optional;
 import java.util.Stack;
